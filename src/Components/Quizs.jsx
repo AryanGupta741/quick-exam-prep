@@ -174,7 +174,9 @@ const Quizs = () => {
                     </Grid>
                     <Grid item xs={12} sm={9} className={classes.mainContent}>
                         <Box className={classes.searchBar}>
-                            <Typography color="textSecondary" style={{ marginRight: 12 }}>🔍</Typography>
+                            <Typography color="textSecondary" style={{ marginRight: 12 }}>
+                                <span role="img" aria-label="search">🔍</span>
+                            </Typography>
                             <Typography color="textSecondary" variant="body2">Search for questions in {categoryData?.name}...</Typography>
                         </Box>
                         <Template

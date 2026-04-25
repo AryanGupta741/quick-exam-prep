@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 import { 
     PieChart, Pie, Cell, ResponsiveContainer, 
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
     AreaChart, Area
 } from 'recharts';
 import { useHistory } from 'react-router-dom';
