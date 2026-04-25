@@ -1,5 +1,4 @@
-import React from 'react';
-import { Grid, Paper, makeStyles, Typography, Box, IconButton } from '@material-ui/core';
+import { makeStyles, Typography, Box, IconButton } from '@material-ui/core';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { useThemeContext } from '../../context/ThemeContext';

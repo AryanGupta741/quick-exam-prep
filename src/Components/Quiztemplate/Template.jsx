@@ -1,5 +1,5 @@
 import React from "react"
-import { Grid, Typography, Box, Paper, Button, Switch } from "@material-ui/core";
+import { Typography, Box, Paper, Button, Switch } from "@material-ui/core";
 import ListIcon from '@material-ui/icons/List';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import ImageIcon from '@material-ui/icons/Image';

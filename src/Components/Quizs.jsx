@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react"
 import {Grid, makeStyles, Box, Button, Typography, IconButton} from "@material-ui/core"
 import { useParams, useHistory } from "react-router-dom"
 import Template from "./Quiztemplate/Template"
-import Paper from "@material-ui/core/Paper";
 import ShowNoOfQuestions from "./ShowNoOfQuestions"
 import Hint from "./Hint"
 import { useAuth } from "../context/AuthContext"
