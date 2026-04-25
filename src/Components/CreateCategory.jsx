@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
     Box, Typography, TextField, Button, makeStyles,
     CircularProgress, Container, MenuItem, IconButton, Paper, Divider,
-    List, ListItem, ListItemText, ListItemSecondaryAction, Card, CardContent, Grid
+    Card, CardContent, Grid
 } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
