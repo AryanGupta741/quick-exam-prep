@@ -1,11 +1,9 @@
 import React from 'react';
-import { Grid, Paper, Typography, Box, makeStyles, Button, IconButton } from '@material-ui/core';
+import { Grid, Paper, Typography, makeStyles, Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useThemeContext } from '../context/ThemeContext';
+
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import Brightness4Icon from '@material-ui/icons/Brightness4';
-import Brightness7Icon from '@material-ui/icons/Brightness7';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -108,8 +106,8 @@ const CategoryCard = ({ category }) => {
 const CategoryDashboard = () => {
     const classes = useStyles({ color: '#4a72ff' });
     const history = useHistory();
-    const { user, logout, categories } = useAuth();
-    const { darkMode, toggleDarkMode } = useThemeContext();
+    const { categories } = useAuth();
+
 
     return (
         <div className={classes.root}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
     Grid, Paper, Typography, Box, makeStyles, Avatar, 
-    LinearProgress, Divider, Button, IconButton 
+    LinearProgress, Divider, Button 
 } from '@material-ui/core';
 import { 
     PieChart, Pie, Cell, ResponsiveContainer, 
@@ -12,9 +12,6 @@ import { useHistory } from 'react-router-dom';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import Brightness4Icon from '@material-ui/icons/Brightness4';
-import Brightness7Icon from '@material-ui/icons/Brightness7';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useThemeContext } from '../context/ThemeContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -77,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 const PerformanceBoard = ({ results, user }) => {
     const classes = useStyles();
     const history = useHistory();
-    const { darkMode, toggleDarkMode } = useThemeContext();
+    const { darkMode } = useThemeContext();
     const { correct, incorrect, unanswered, total } = results;
     const score = Math.round((correct / total) * 100);
 

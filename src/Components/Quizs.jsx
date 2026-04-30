@@ -1,15 +1,13 @@
 import React, {useState, useEffect} from "react"
-import {Grid, makeStyles, Box, Button, Typography, IconButton} from "@material-ui/core"
+import {Grid, makeStyles, Box, Button, Typography} from "@material-ui/core"
 import { useParams, useHistory } from "react-router-dom"
 import Template from "./Quiztemplate/Template"
 import ShowNoOfQuestions from "./ShowNoOfQuestions"
 import Hint from "./Hint"
 import { useAuth } from "../context/AuthContext"
-import { useThemeContext } from "../context/ThemeContext"
+
 import PerformanceBoard from "./PerformanceBoard"
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Brightness4Icon from '@material-ui/icons/Brightness4';
-import Brightness7Icon from '@material-ui/icons/Brightness7';
+
 
 const  pageStyle = makeStyles(theme => ({
     root: {
@@ -41,8 +39,8 @@ const  pageStyle = makeStyles(theme => ({
 
 const Quizs = () => {
     const classes = pageStyle()
-    const { user, logout, categories, questions: allQuestions } = useAuth()
-    const { darkMode, toggleDarkMode } = useThemeContext()
+    const { user, categories, questions: allQuestions } = useAuth()
+
     const { category: categoryId } = useParams()
     const history = useHistory()
 

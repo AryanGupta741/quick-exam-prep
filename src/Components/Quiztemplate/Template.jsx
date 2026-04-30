@@ -2,10 +2,7 @@ import React from "react"
 import { Typography, Box, Paper, Button, Switch, useTheme } from "@material-ui/core";
 import ListIcon from '@material-ui/icons/List';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import ImageIcon from '@material-ui/icons/Image';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import TimerIcon from '@material-ui/icons/Timer';
-import StarIcon from '@material-ui/icons/Star';
+
 
 import { pageStyle } from "./Style"
 

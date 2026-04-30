@@ -1,8 +1,6 @@
 import React from "react"
-import { Box, Typography, makeStyles, Paper } from "@material-ui/core";
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import CancelIcon from '@material-ui/icons/Cancel';
+import { Box, Typography, makeStyles } from "@material-ui/core";
+
 
 const useStyles = makeStyles(theme => ({
     container: {
