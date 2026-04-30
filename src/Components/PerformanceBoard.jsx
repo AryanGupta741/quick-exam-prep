@@ -19,45 +19,47 @@ import { useThemeContext } from '../context/ThemeContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: theme.spacing(4),
+        padding: theme.spacing(6),
         backgroundColor: theme.palette.background.default,
         minHeight: '100vh',
         transition: 'background-color 0.3s ease',
     },
     card: {
-        padding: theme.spacing(3),
-        borderRadius: 16,
-        boxShadow: theme.palette.type === 'dark' ? '0 4px 20px rgba(0,0,0,0.4)' : '0 4px 20px rgba(0,0,0,0.05)',
+        padding: theme.spacing(4),
+        borderRadius: 24,
+        boxShadow: theme.palette.type === 'dark' ? '0 10px 40px rgba(0,0,0,0.5)' : '0 10px 40px rgba(99, 102, 241, 0.05)',
         height: '100%',
         backgroundColor: theme.palette.background.paper,
-        border: `1px solid ${theme.palette.type === 'dark' ? '#334155' : '#eef2f6'}`,
+        border: `1px solid ${theme.palette.divider}`,
     },
     statCard: {
-        padding: theme.spacing(2),
-        borderRadius: 12,
+        padding: theme.spacing(2.5),
+        borderRadius: 20,
         backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.palette.type === 'dark' ? '0 2px 10px rgba(0,0,0,0.3)' : '0 2px 10px rgba(0,0,0,0.03)',
+        boxShadow: theme.palette.type === 'dark' ? '0 4px 15px rgba(0,0,0,0.3)' : '0 4px 15px rgba(0,0,0,0.03)',
         display: 'flex',
         alignItems: 'center',
         gap: 16,
-        border: `1px solid ${theme.palette.type === 'dark' ? '#334155' : '#eef2f6'}`,
+        border: `1px solid ${theme.palette.divider}`,
     },
     iconBox: {
-        width: 48,
-        height: 48,
-        borderRadius: 12,
+        width: 52,
+        height: 52,
+        borderRadius: 14,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
     },
     avatar: {
-        width: 60,
-        height: 60,
-        border: `3px solid ${theme.palette.type === 'dark' ? '#334155' : '#eef2f6'}`,
+        width: 80,
+        height: 80,
+        border: `4px solid ${theme.palette.divider}`,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
     },
     chartContainer: {
-        height: 300,
+        height: 320,
         width: '100%',
+        marginTop: theme.spacing(2),
     },
     donutCenter: {
         position: 'absolute',
@@ -67,8 +69,8 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
     },
     progressBar: {
-        height: 8,
-        borderRadius: 4,
+        height: 10,
+        borderRadius: 5,
     },
 }));
 
@@ -109,12 +111,7 @@ const PerformanceBoard = ({ results, user }) => {
         <div className={classes.root}>
             <Box mb={4} display="flex" justifyContent="space-between" alignItems="center">
                 <Box display="flex" alignItems="center" gap={2}>
-                    <IconButton 
-                        onClick={() => history.push('/dashboard')} 
-                        style={{ backgroundColor: darkMode ? '#1e293b' : '#fff', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}
-                    >
-                        <ArrowBackIcon />
-                    </IconButton>
+                   
                     <Box>
                         <Typography variant="h4" style={{ fontWeight: 800 }}>
                             Performance Dashboard
@@ -125,9 +122,6 @@ const PerformanceBoard = ({ results, user }) => {
                     </Box>
                 </Box>
                 <Box display="flex" gap={2} alignItems="center">
-                    <IconButton onClick={toggleDarkMode} color="inherit">
-                        {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
-                    </IconButton>
                     <Paper className={classes.statCard}>
                         <div className={classes.iconBox} style={{ backgroundColor: darkMode ? 'rgba(56, 178, 172, 0.1)' : '#e6fffa', color: '#38b2ac' }}>
                             <TrendingUpIcon />
@@ -151,28 +145,29 @@ const PerformanceBoard = ({ results, user }) => {
                                     Examination Results
                                 </Typography>
                                 <div className={classes.chartContainer}>
-                                    <ResponsiveContainer>
-                                        <AreaChart data={areaData}>
-                                            <defs>
-                                                <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
-                                                    <stop offset="5%" stopColor="#4a72ff" stopOpacity={0.2}/>
-                                                    <stop offset="95%" stopColor="#4a72ff" stopOpacity={0}/>
-                                                </linearGradient>
-                                            </defs>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={gridColor} />
-                                            <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{fill: axisColor}} />
-                                            <YAxis hide />
-                                            <Tooltip 
-                                                contentStyle={{ 
-                                                    backgroundColor: darkMode ? '#1e293b' : '#fff',
-                                                    border: `1px solid ${gridColor}`,
-                                                    borderRadius: 8
-                                                }} 
-                                            />
-                                            <Area type="monotone" dataKey="score" stroke="#4a72ff" strokeWidth={3} fillOpacity={1} fill="url(#colorScore)" />
-                                        </AreaChart>
-                                    </ResponsiveContainer>
-                                </div>
+                                     <ResponsiveContainer>
+                                         <AreaChart data={areaData}>
+                                             <defs>
+                                                 <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
+                                                     <stop offset="5%" stopColor={darkMode ? '#818cf8' : '#6366f1'} stopOpacity={0.2}/>
+                                                     <stop offset="95%" stopColor={darkMode ? '#818cf8' : '#6366f1'} stopOpacity={0}/>
+                                                 </linearGradient>
+                                             </defs>
+                                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={gridColor} />
+                                             <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{fill: axisColor}} />
+                                             <YAxis hide />
+                                             <Tooltip 
+                                                 contentStyle={{ 
+                                                     backgroundColor: darkMode ? '#1e293b' : '#fff',
+                                                     border: `1px solid ${gridColor}`,
+                                                     borderRadius: 12,
+                                                     boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
+                                                 }} 
+                                             />
+                                             <Area type="monotone" dataKey="score" stroke={darkMode ? '#818cf8' : '#6366f1'} strokeWidth={4} fillOpacity={1} fill="url(#colorScore)" />
+                                         </AreaChart>
+                                     </ResponsiveContainer>
+                                 </div>
                             </Paper>
                         </Grid>
 
@@ -183,28 +178,28 @@ const PerformanceBoard = ({ results, user }) => {
                                     Subject Analysis
                                 </Typography>
                                 <div className={classes.chartContainer}>
-                                    <ResponsiveContainer>
-                                        <BarChart data={barData} layout="vertical">
-                                            <XAxis type="number" hide />
-                                            <YAxis 
-                                                dataKey="name" 
-                                                type="category" 
-                                                axisLine={false} 
-                                                tickLine={false} 
-                                                width={80} 
-                                                tick={{fill: axisColor}}
-                                            />
-                                            <Tooltip 
-                                                contentStyle={{ 
-                                                    backgroundColor: darkMode ? '#1e293b' : '#fff',
-                                                    border: `1px solid ${gridColor}`,
-                                                    borderRadius: 8
-                                                }}
-                                            />
-                                            <Bar dataKey="score" fill="#4a72ff" radius={[0, 4, 4, 0]} barSize={20} />
-                                        </BarChart>
-                                    </ResponsiveContainer>
-                                </div>
+                                     <ResponsiveContainer>
+                                         <BarChart data={barData} layout="vertical">
+                                             <XAxis type="number" hide />
+                                             <YAxis 
+                                                 dataKey="name" 
+                                                 type="category" 
+                                                 axisLine={false} 
+                                                 tickLine={false} 
+                                                 width={80} 
+                                                 tick={{fill: axisColor, fontSize: 12, fontWeight: 600}}
+                                             />
+                                             <Tooltip 
+                                                 contentStyle={{ 
+                                                     backgroundColor: darkMode ? '#1e293b' : '#fff',
+                                                     border: `1px solid ${gridColor}`,
+                                                     borderRadius: 12
+                                                 }}
+                                             />
+                                             <Bar dataKey="score" fill={darkMode ? '#818cf8' : '#6366f1'} radius={[0, 6, 6, 0]} barSize={24} />
+                                         </BarChart>
+                                     </ResponsiveContainer>
+                                 </div>
                             </Paper>
                         </Grid>
 
@@ -288,15 +283,19 @@ const PerformanceBoard = ({ results, user }) => {
 
                         {/* Recommendation */}
                         <Grid item xs={12}>
-                            <Paper className={classes.card} style={{ backgroundColor: '#4a72ff', color: '#fff', border: 'none' }}>
-                                <Typography variant="h6" gutterBottom style={{ fontWeight: 700 }}>
+                            <Paper className={classes.card} style={{ backgroundColor: darkMode ? '#4f46e5' : '#6366f1', color: '#fff', border: 'none', padding: '32px' }}>
+                                <Typography variant="h6" gutterBottom style={{ fontWeight: 800 }}>
                                     Next Steps
                                 </Typography>
-                                <Typography variant="body2" style={{ opacity: 0.9 }}>
+                                <Typography variant="body1" style={{ opacity: 0.9, marginBottom: 24 }}>
                                     Focus more on Geometry and Arithmetic. You're doing great in Logic!
                                 </Typography>
-                                <Box mt={2}>
-                                    <Button variant="contained" style={{ backgroundColor: '#fff', color: '#4a72ff', fontWeight: 700, borderRadius: 8, textTransform: 'none' }} onClick={() => history.push('/dashboard')}>
+                                <Box>
+                                    <Button 
+                                        variant="contained" 
+                                        style={{ backgroundColor: '#fff', color: '#6366f1', fontWeight: 800, borderRadius: 14, textTransform: 'none', padding: '10px 28px' }} 
+                                        onClick={() => history.push('/dashboard')}
+                                    >
                                         Return to Dashboard
                                     </Button>
                                 </Box>

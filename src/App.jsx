@@ -5,6 +5,7 @@ import Login from "./Components/Auth/Login"
 import Signup from "./Components/Auth/Signup"
 import CategoryDashboard from "./Components/CategoryDashboard" 
 import CreateCategory from "./Components/CreateCategory"
+import Navbar from "./Components/Navbar"
 import { AuthProvider, useAuth } from "./context/AuthContext"
 import { ThemeProviderWrapper } from "./context/ThemeContext"
 import { CssBaseline } from "@material-ui/core"
@@ -34,6 +35,7 @@ const App = () => {
             <CssBaseline />
             <AuthProvider>
                 <Router>
+                    <Navbar />
                     <Switch>
                         <Route path="/login" component={Login} />
                         <Route path="/signup" component={Signup} />

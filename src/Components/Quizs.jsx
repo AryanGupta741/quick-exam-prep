@@ -19,7 +19,7 @@ const  pageStyle = makeStyles(theme => ({
     },
     sidebar: {
         backgroundColor: theme.palette.background.paper,
-        borderRight: `1px solid ${theme.palette.type === 'dark' ? '#334155' : '#eef2f6'}`,
+        borderLeft: `1px solid ${theme.palette.type === 'dark' ? '#334155' : '#eef2f6'}`,
         height: 'calc(100vh - 64px)',
         overflowY: 'auto',
     },
@@ -67,6 +67,16 @@ const Quizs = () => {
     }, [categoryId, categoryQuestions.length]);
 
     const handleSubmit = () => {
+        const unansweredIndices = questionsStatus.reduce((acc, status, idx) => {
+            if (status === 0) acc.push(idx + 1);
+            return acc;
+        }, []);
+
+        if (unansweredIndices.length > 0) {
+            alert(`Please answer all questions before submitting. Missing: ${unansweredIndices.join(', ')}`);
+            return;
+        }
+
         let correct = 0;
         let incorrect = 0;
         let unanswered = 0;
@@ -82,8 +92,6 @@ const Quizs = () => {
     };
 
     const checkAnswer = (questionNumber, correctAnswer, chosenValue, index) => {
-        if (selectedOptions[questionNumber] !== null) return;
-
         setSelectedOptions(prev => {
             let next = [...prev];
             next[questionNumber] = index;
@@ -107,6 +115,10 @@ const Quizs = () => {
     }
 
     const nextQuestion = () => {
+        if (questionsStatus[quesNum] === 0) {
+            alert("Please select an answer before proceeding to the next question.");
+            return;
+        }
         setQuesNum(quesNum + 1)
     }
 
@@ -129,48 +141,7 @@ const Quizs = () => {
 
     return (
             <div className={classes.root}>
-                <Box p={2} display="flex" justifyContent="space-between" alignItems="center" bgcolor="background.paper" borderBottom={`1px solid ${darkMode ? '#334155' : '#eef2f6'}`}>
-                    <Box display="flex" alignItems="center" gap={2}>
-                        <Button 
-                            startIcon={<ArrowBackIcon />} 
-                            onClick={() => history.push('/dashboard')}
-                            style={{ textTransform: 'none', fontWeight: 700 }}
-                        >
-                            Back
-                        </Button>
-                        <Typography variant="h6" style={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <Box bgcolor={categoryData?.color || "#4a72ff"} color="#fff" p={0.5} borderRadius={4} display="flex">
-                                <span style={{ fontSize: '0.8rem' }}>{categoryData?.icon || 'Q'}</span>
-                            </Box>
-                            {categoryData?.name} Exam
-                        </Typography>
-                    </Box>
-                    <Box display="flex" alignItems="center" gap={2}>
-                        <IconButton onClick={toggleDarkMode} color="inherit">
-                            {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
-                        </IconButton>
-                        <Typography variant="body2">Welcome, <strong>{user?.username}</strong></Typography>
-                        <Button 
-                            variant="outlined" 
-                            color="secondary" 
-                            size="small" 
-                            onClick={logout}
-                            style={{ borderRadius: 8, textTransform: 'none' }}
-                        >
-                            Logout
-                        </Button>
-                    </Box>
-                </Box>
                 <Grid container>
-                    <Grid item xs={12} sm={3} className={classes.sidebar}>
-                        <ShowNoOfQuestions
-                            quesNum={quesNum}
-                            questionsLength={questionsLength}
-                            questionsStatus={questionsStatus}
-                            setQuesNum={setQuesNum}
-                            questions={categoryQuestions}
-                        />
-                    </Grid>
                     <Grid item xs={12} sm={9} className={classes.mainContent}>
                         <Box className={classes.searchBar}>
                             <Typography color="textSecondary" style={{ marginRight: 12 }}>
@@ -190,6 +161,15 @@ const Quizs = () => {
                             handleSubmit={handleSubmit}
                         />
                         <Hint />
+                    </Grid>
+                    <Grid item xs={12} sm={3} className={classes.sidebar}>
+                        <ShowNoOfQuestions
+                            quesNum={quesNum}
+                            questionsLength={questionsLength}
+                            questionsStatus={questionsStatus}
+                            setQuesNum={setQuesNum}
+                            questions={categoryQuestions}
+                        />
                     </Grid>
                 </Grid>
             </div>

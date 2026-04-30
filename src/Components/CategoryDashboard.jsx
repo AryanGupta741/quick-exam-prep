@@ -9,58 +9,65 @@ import Brightness7Icon from '@material-ui/icons/Brightness7';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: theme.spacing(6),
+        padding: theme.spacing(8, 6),
         backgroundColor: theme.palette.background.default,
         minHeight: '100vh',
         transition: 'background-color 0.3s ease',
     },
     header: {
-        marginBottom: theme.spacing(6),
+        marginBottom: theme.spacing(8),
         textAlign: 'center',
     },
     categoryCard: {
-        padding: theme.spacing(4),
-        borderRadius: 24,
+        padding: theme.spacing(5),
+        borderRadius: 32,
         textAlign: 'center',
         cursor: 'pointer',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        border: `1px solid ${theme.palette.type === 'dark' ? '#334155' : '#eef2f6'}`,
+        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        border: `1px solid ${theme.palette.divider}`,
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: theme.palette.background.paper,
         '&:hover': {
-            transform: 'translateY(-10px)',
-            boxShadow: theme.palette.type === 'dark' ? '0 20px 40px rgba(0,0,0,0.4)' : '0 20px 40px rgba(0,0,0,0.08)',
-            borderColor: props => props.color || '#4a72ff',
+            transform: 'translateY(-12px)',
+            boxShadow: theme.palette.type === 'dark' ? '0 30px 60px rgba(0,0,0,0.5)' : '0 30px 60px rgba(99, 102, 241, 0.08)',
+            borderColor: props => props.color || theme.palette.primary.main,
         },
     },
     iconBox: {
-        width: 80,
-        height: 80,
-        borderRadius: 20,
+        width: 100,
+        height: 100,
+        borderRadius: 24,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '2.5rem',
-        margin: '0 auto 24px',
-        backgroundColor: props => `${props.color}20` || '#f0f4ff',
-        color: props => props.color || '#4a72ff',
+        fontSize: '3rem',
+        margin: '0 auto 32px',
+        backgroundColor: props => `${props.color}15` || 'rgba(99, 102, 241, 0.1)',
+        color: props => props.color || theme.palette.primary.main,
+        boxShadow: props => `0 12px 24px -8px ${props.color}40` || 'none',
     },
     startButton: {
         marginTop: 'auto',
-        borderRadius: 12,
+        borderRadius: 16,
         textTransform: 'none',
-        fontWeight: 700,
-        padding: '8px 24px',
+        fontWeight: 800,
+        padding: '12px 32px',
+        fontSize: '0.9rem',
+        boxShadow: props => `0 8px 20px -6px ${props.color}80` || 'none',
+        '&:hover': {
+            boxShadow: props => `0 12px 28px -6px ${props.color}A0` || 'none',
+            transform: 'scale(1.02)',
+        }
     },
     addCard: {
-        border: `2px dashed ${theme.palette.type === 'dark' ? '#475569' : '#cbd5e1'}`,
+        border: `2px dashed ${theme.palette.divider}`,
         backgroundColor: 'transparent',
         '&:hover': {
-            borderColor: '#4a72ff',
-            backgroundColor: theme.palette.type === 'dark' ? 'rgba(74, 114, 255, 0.1)' : '#f0f4ff',
+            borderColor: theme.palette.primary.main,
+            backgroundColor: theme.palette.type === 'dark' ? 'rgba(99, 102, 241, 0.05)' : '#f0f4ff',
         }
     }
 }));
@@ -106,18 +113,7 @@ const CategoryDashboard = () => {
 
     return (
         <div className={classes.root}>
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={6}>
-                <Typography variant="h4" style={{ fontWeight: 800 }}>
-                    Exam Dashboard
-                </Typography>
-                <Box display="flex" alignItems="center" gap={2}>
-                    <IconButton onClick={toggleDarkMode} color="inherit">
-                        {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
-                    </IconButton>
-                    <Typography variant="body1">Hello, <strong>{user?.username}</strong></Typography>
-                    <Button variant="outlined" color="secondary" onClick={logout} style={{ borderRadius: 10 }}>Logout</Button>
-                </Box>
-            </Box>
+           
 
             <div className={classes.header}>
                 <Typography variant="h3" style={{ fontWeight: 900, marginBottom: 16 }}>

@@ -115,6 +115,7 @@ const CreateCategory = () => {
     const { darkMode, toggleDarkMode } = useThemeContext();
     
     const [subject, setSubject] = useState('');
+    const [customSubject, setCustomSubject] = useState('');
     const [numQuestions, setNumQuestions] = useState(5);
     const [difficulty, setDifficulty] = useState('Medium');
     const [prompt, setPrompt] = useState('');
@@ -124,12 +125,13 @@ const CreateCategory = () => {
     const [generatedData, setGeneratedData] = useState([]);
 
     const handleGenerate = () => {
-        if (!subject || !prompt) return;
+        const activeSubject = subject === 'Custom' ? customSubject : subject;
+        if (!activeSubject || !prompt) return;
         
         setStatus('generating');
         setCurrentStep('Optimizing System Prompt...');
         
-        const finalPrompt = `Generate ${numQuestions} real multiple-choice questions for ${subject}.
+        const finalPrompt = `Generate ${numQuestions} real multiple-choice questions for ${activeSubject}.
 
 Rules:
 - Each question must be a factual, specific question (no placeholders or generic wording)
@@ -149,7 +151,8 @@ JSON Array of objects { "question": "...", "choices": ["...", "..."], "answer": 
 
         // Mock Generation using real questions from mockBank
         setTimeout(() => {
-            const realBank = mockBank[subject] || mockBank['Science']; // fallback
+            const activeSubject = subject === 'Custom' ? customSubject : subject;
+            const realBank = mockBank[activeSubject] || mockBank['Science']; // fallback
             
             const questions = Array.from({ length: parseInt(numQuestions) }).map((_, i) => {
                 const template = realBank[i % realBank.length];
@@ -178,10 +181,11 @@ JSON Array of objects { "question": "...", "choices": ["...", "..."], "answer": 
     };
 
     const handleFinalize = () => {
-        const categoryId = subject.toLowerCase().replace(/\s+/g, '-');
+        const activeSubject = subject === 'Custom' ? customSubject : subject;
+        const categoryId = activeSubject.toLowerCase().replace(/\s+/g, '-');
         const newCategory = {
             id: categoryId,
-            name: subject,
+            name: activeSubject,
             icon: '🎯',
             color: difficulty === 'Hard' ? '#ef4444' : (difficulty === 'Medium' ? '#f59e0b' : '#10b981'),
         };
@@ -327,7 +331,20 @@ JSON Array of objects { "question": "...", "choices": ["...", "..."], "answer": 
                             <MenuItem value="English">English</MenuItem>
                             <MenuItem value="Science">Science</MenuItem>
                             <MenuItem value="History">History</MenuItem>
+                            <MenuItem value="Custom">Custom...</MenuItem>
                         </TextField>
+
+                        {subject === 'Custom' && (
+                            <TextField
+                                label="Custom Subject Name"
+                                variant="outlined"
+                                className={classes.input}
+                                value={customSubject}
+                                onChange={(e) => setCustomSubject(e.target.value)}
+                                fullWidth
+                                placeholder="e.g. Physics, Biology..."
+                            />
+                        )}
 
                         <TextField
                             select
@@ -370,7 +387,7 @@ JSON Array of objects { "question": "...", "choices": ["...", "..."], "answer": 
                         variant="contained" 
                         className={classes.submitButton}
                         onClick={handleGenerate}
-                        disabled={!subject || !prompt}
+                        disabled={!(subject === 'Custom' ? customSubject : subject) || !prompt}
                     >
                         Generate Concrete Exam
                     </Button>

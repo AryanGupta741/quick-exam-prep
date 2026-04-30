@@ -1,5 +1,5 @@
 import React from "react"
-import { Typography, Box, Paper, Button, Switch } from "@material-ui/core";
+import { Typography, Box, Paper, Button, Switch, useTheme } from "@material-ui/core";
 import ListIcon from '@material-ui/icons/List';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import ImageIcon from '@material-ui/icons/Image';
@@ -11,7 +11,8 @@ import { pageStyle } from "./Style"
 
 
 const Template = (props) => {
-    let classes = pageStyle()
+    const classes = pageStyle()
+    const theme = useTheme()
 
     return (
         <Paper className={classes.card} elevation={0}>
@@ -33,41 +34,27 @@ const Template = (props) => {
             {/* Question Section */}
             <div className={classes.questionSection}>
                 <div className={classes.questionTextContainer}>
-                    <Typography variant="caption" style={{ color: '#4a72ff', fontWeight: 800, marginBottom: 8, display: 'block' }}>
+                    <Typography variant="caption" style={{ color: theme.palette.primary.main, fontWeight: 800, marginBottom: 8, display: 'block' }}>
                         QUESTION {props.quesNum + 1}*
                     </Typography>
-                    <Typography variant="h6" style={{ fontWeight: 700, color: '#1a202c', lineHeight: 1.5 }}>
+                    <Typography variant="h6" style={{ fontWeight: 700, lineHeight: 1.5 }}>
                         {props.questions.Q}
                     </Typography>
-                </div>
-                <div className={classes.imagePlaceholder}>
-                    <ImageIcon style={{ fontSize: 40, color: '#cbd5e1' }} />
-                    <Box position="absolute" top={8} right={8} display="flex" gap={1}>
-                        <Box bgcolor="#fff" p={0.5} borderRadius={4} display="flex" style={{ cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
-                            <ImageIcon style={{ fontSize: 16, color: '#64748b' }} />
-                        </Box>
-                        <Box bgcolor="#fff" p={0.5} borderRadius={4} display="flex" style={{ cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
-                            <DeleteOutlineIcon style={{ fontSize: 16, color: '#64748b' }} />
-                        </Box>
-                    </Box>
                 </div>
             </div>
 
             {/* Options List */}
             <Box mb={4}>
-                <Typography variant="caption" style={{ fontWeight: 800, color: '#94a3b8', marginBottom: 16, display: 'block' }}>
+                <Typography variant="caption" color="textSecondary" style={{ fontWeight: 800, marginBottom: 16, display: 'block' }}>
                     CHOICES*
                 </Typography>
                 <div className={classes.optionsContainer}>
                     {props.questions.O.map((option, index) => {
                         const isSelected = props.selectedOption === index;
-                        const status = props.questionsStatus[props.quesNum];
                         
                         let customClass = classes.optionItem;
                         if (isSelected) {
-                            if (status === 1) customClass += ` ${classes.correctOption}`;
-                            else if (status === -1) customClass += ` ${classes.wrongOption}`;
-                            else customClass += ` ${classes.selectedOption}`;
+                            customClass += ` ${classes.selectedOption}`;
                         }
 
                         return (
@@ -79,7 +66,7 @@ const Template = (props) => {
                                 <div className={`${classes.radio} ${isSelected ? classes.radioSelected : ''}`}>
                                     {isSelected && <div className={classes.radioInner} />}
                                 </div>
-                                <Typography variant="body2" style={{ fontWeight: 600, color: isSelected ? '#4a72ff' : '#475569', flex: 1 }}>
+                                <Typography variant="body2" style={{ fontWeight: 600, flex: 1 }}>
                                     {option.value}
                                 </Typography>
                                 <MoreHorizIcon style={{ color: '#cbd5e1', fontSize: 18 }} />
@@ -88,34 +75,12 @@ const Template = (props) => {
                     })}
                 </div>
                 <Box mt={2}>
-                    <Button size="small" style={{ textTransform: 'none', color: '#4a72ff', fontWeight: 700, border: '1px dashed #4a72ff', borderRadius: 8, padding: '4px 16px' }}>
-                        + Add answers
-                    </Button>
+                    
                 </Box>
             </Box>
 
             {/* Footer */}
             <div className={classes.footer}>
-                <Box display="flex" gap={4}>
-                    <Box>
-                        <Typography variant="caption" style={{ color: '#94a3b8', fontWeight: 700, display: 'block', marginBottom: 4 }}>Randomize Order</Typography>
-                        <Typography variant="body2" style={{ fontWeight: 700, color: '#475569' }}>Keep choices in current order</Typography>
-                    </Box>
-                    <Box>
-                        <Typography variant="caption" style={{ color: '#94a3b8', fontWeight: 700, display: 'block', marginBottom: 4 }}>Estimation time</Typography>
-                        <Box display="flex" alignItems="center" gap={1}>
-                            <Typography variant="body2" style={{ fontWeight: 700, color: '#475569' }}>2 Mins</Typography>
-                            <TimerIcon style={{ fontSize: 16, color: '#94a3b8' }} />
-                        </Box>
-                    </Box>
-                    <Box>
-                        <Typography variant="caption" style={{ color: '#94a3b8', fontWeight: 700, display: 'block', marginBottom: 4 }}>Mark as point</Typography>
-                        <Box display="flex" alignItems="center" gap={1}>
-                            <Typography variant="body2" style={{ fontWeight: 700, color: '#475569' }}>1 Points</Typography>
-                            <StarIcon style={{ fontSize: 16, color: '#f59e0b' }} />
-                        </Box>
-                    </Box>
-                </Box>
                 <Box display="flex" gap={2}>
                     <Button 
                         variant="outlined" 

@@ -6,50 +6,51 @@ import CancelIcon from '@material-ui/icons/Cancel';
 
 const useStyles = makeStyles(theme => ({
     container: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(3, 2),
     },
     header: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
         marginBottom: theme.spacing(3),
         padding: theme.spacing(0, 1),
     },
-    questionItem: {
-        padding: theme.spacing(2),
-        marginBottom: theme.spacing(1.5),
-        borderRadius: 12,
-        cursor: 'pointer',
-        transition: 'all 0.2s',
-        border: `1px solid ${theme.palette.type === 'dark' ? '#334155' : '#eef2f6'}`,
+    grid: {
         display: 'flex',
+        flexWrap: 'wrap',
         gap: 12,
-        backgroundColor: theme.palette.background.paper,
-        '&:hover': {
-            backgroundColor: theme.palette.type === 'dark' ? '#334155' : '#f8fafd',
-            borderColor: '#4a72ff',
-        }
+        justifyContent: 'flex-start',
     },
-    activeItem: {
-        backgroundColor: theme.palette.type === 'dark' ? 'rgba(74, 114, 255, 0.1)' : '#f0f4ff',
-        borderColor: '#4a72ff',
-        boxShadow: '0 4px 12px rgba(74, 114, 255, 0.1)',
-    },
-    indexBox: {
-        minWidth: 28,
-        height: 28,
-        borderRadius: 6,
-        backgroundColor: theme.palette.type === 'dark' ? '#334155' : '#f0f4ff',
-        color: '#4a72ff',
+    circle: {
+        width: 40,
+        height: 40,
+        borderRadius: '50%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        cursor: 'pointer',
+        fontSize: '0.9rem',
         fontWeight: 700,
-        fontSize: '0.85rem',
+        transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+        border: `2px solid ${theme.palette.divider}`,
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.text.secondary,
+        '&:hover': {
+            transform: 'scale(1.1)',
+            borderColor: theme.palette.primary.main,
+        }
     },
-    activeIndexBox: {
-        backgroundColor: '#4a72ff',
+    active: {
+        borderColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.type === 'dark' ? 'rgba(99, 102, 241, 0.1)' : '#f0f4ff',
+        color: theme.palette.primary.main,
+        boxShadow: `0 0 0 2px ${theme.palette.primary.main}40`,
+    },
+    attempted: {
+        backgroundColor: '#10b981', // Green
+        borderColor: '#10b981',
         color: '#fff',
+    },
+    unattempted: {
+        borderColor: '#ef4444', // Red
+        color: '#ef4444',
     }
 }))
 
@@ -59,48 +60,36 @@ function ShowNoOfQuestions(props){
     return(
         <div className={classes.container}>
             <Box className={classes.header}>
-                <Typography variant="subtitle2" style={{ fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1, color: props.theme?.palette?.text?.secondary || '#94a3b8' }}>
-                    Questions ({props.questionsLength})
+                <Typography variant="subtitle2" color="textSecondary" style={{ fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1 }}>
+                    Questions Progress
                 </Typography>
-                <Box bgcolor="#f0f4ff" color="#4a72ff" p={0.5} borderRadius={4} display="flex" style={{ cursor: 'pointer' }}>
-                    <Typography style={{ fontSize: '1.2rem', lineHeight: 1 }}>+</Typography>
-                </Box>
+                <Typography variant="caption" color="textSecondary">
+                    {props.questionsStatus.filter(s => s !== 0).length} of {props.questionsLength} answered
+                </Typography>
             </Box>
             
-            {props.questions.map((q, index) => {
-                const isActive = props.quesNum === index;
-                const status = props.questionsStatus[index];
+            <div className={classes.grid}>
+                {props.questions.map((q, index) => {
+                    const isActive = props.quesNum === index;
+                    const status = props.questionsStatus[index]; // 1 or -1 means answered, 0 means not
 
-                return (
-                    <Paper 
-                        key={index} 
-                        elevation={0}
-                        className={`${classes.questionItem} ${isActive ? classes.activeItem : ''}`}
-                        onClick={() => props.setQuesNum(index)}
-                    >
-                        <div className={`${classes.indexBox} ${isActive ? classes.activeIndexBox : ''}`}>
+                    let customClass = classes.circle;
+                    if (isActive) customClass += ` ${classes.active}`;
+                    if (status !== 0) customClass += ` ${classes.attempted}`;
+                    else if (!isActive) customClass += ` ${classes.unattempted}`;
+
+                    return (
+                        <div 
+                            key={index} 
+                            className={customClass}
+                            onClick={() => props.setQuesNum(index)}
+                            title={status !== 0 ? 'Answered' : 'Unanswered'}
+                        >
                             {index + 1}
                         </div>
-                        <Box flex={1}>
-                            <Typography variant="body2" style={{ fontWeight: isActive ? 700 : 500, marginBottom: 4, display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                                {q.Q}
-                            </Typography>
-                            <Box display="flex" alignItems="center" gap={0.5}>
-                                {status === 1 ? (
-                                    <CheckCircleIcon style={{ fontSize: 14, color: '#4caf50' }} />
-                                ) : status === -1 ? (
-                                    <CancelIcon style={{ fontSize: 14, color: '#f44336' }} />
-                                ) : (
-                                    <RadioButtonUncheckedIcon style={{ fontSize: 14, color: '#94a3b8' }} />
-                                )}
-                                <Typography variant="caption" style={{ color: '#94a3b8', fontSize: '0.7rem', fontWeight: 600 }}>
-                                    Multiple choice
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Paper>
-                )
-            })}
+                    )
+                })}
+            </div>
         </div>
     )
 }
